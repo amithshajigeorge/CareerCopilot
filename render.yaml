@@ -5,7 +5,7 @@ services:
   - type: web
     name: careercopilot-backend
     runtime: python
-    plan: starter
+    plan: free
 
     buildCommand: |
       cd backend
