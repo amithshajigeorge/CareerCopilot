@@ -1,0 +1,24 @@
+# Render Blueprint Specification for CareerCopilot AI
+# Reference: https://render.com/docs/blueprints
+
+services:
+  - type: web
+    name: careercopilot-backend
+    env: python
+    root: backend
+    plan: starter # Starter plan is recommended for production (or free for testing)
+    buildCommand: pip install -r requirements.txt
+    startCommand: alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PROJECT_NAME
+        value: "CareerCopilot AI"
+      - key: API_V1_STR
+        value: "/api/v1"
+      - key: PYTHON_VERSION
+        value: "3.11.10" # Render supports up to 3.11.x natively or standard build image Python versions.
+      - key: DATABASE_URL
+        sync: false # Must be set to your Neon PostgreSQL connection string (postgresql://...)
+      - key: SECRET_KEY
+        generateValue: true # Render will automatically generate a secure 256-bit random key
+      - key: GEMINI_API_KEY
+        sync: false # Must be set to your Google Gemini API key

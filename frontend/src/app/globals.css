@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+:root {
+  --background: #070610;
+  --foreground: #ededed;
+  --bg-dark-900: #070610;
+  --bg-dark-800: #0a0915;
+  --glow-purple: rgba(147, 51, 234, 0.1);
+  --glow-indigo: rgba(99, 102, 241, 0.1);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+}
+
