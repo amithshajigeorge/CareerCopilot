@@ -5,9 +5,11 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 
 export default function LoginPage() {
-  const { login, isAuthenticated, isLoading } = useAuth();
+  const { login, register, isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
 
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -25,17 +27,29 @@ export default function LoginPage() {
     e.preventDefault();
     setError(null);
 
+    if (isSignUp && !name) {
+      setError('Please fill in your name.');
+      return;
+    }
     if (!email || !password) {
       setError('Please fill in all fields.');
+      return;
+    }
+    if (isSignUp && password.length < 6) {
+      setError('Password must be at least 6 characters.');
       return;
     }
 
     setIsSubmitting(true);
     try {
-      await login(email, password);
+      if (isSignUp) {
+        await register(name, email, password);
+      } else {
+        await login(email, password);
+      }
       // AuthContext handles routing on success
     } catch (err: any) {
-      setError(err.message || 'Login failed. Please check your credentials.');
+      setError(err.message || (isSignUp ? 'Registration failed.' : 'Login failed. Please check your credentials.'));
     } finally {
       setIsSubmitting(false);
     }
@@ -82,8 +96,12 @@ export default function LoginPage() {
         {/* Login Glass Card */}
         <div className="bg-white/[0.02] border border-white/[0.08] backdrop-blur-xl rounded-3xl p-8 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
           <div className="mb-6">
-            <h2 className="text-xl font-bold text-white">Welcome back</h2>
-            <p className="text-zinc-400 text-xs mt-1">Please sign in to access your dashboard</p>
+            <h2 className="text-xl font-bold text-white">
+              {isSignUp ? 'Create your account' : 'Welcome back'}
+            </h2>
+            <p className="text-zinc-400 text-xs mt-1">
+              {isSignUp ? 'Sign up to start optimizing your career path' : 'Please sign in to access your dashboard'}
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -105,6 +123,31 @@ export default function LoginPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
+              </div>
+            )}
+
+            {/* Name Field (Sign Up Mode Only) */}
+            {isSignUp && (
+              <div className="space-y-1.5 animate-fadeIn">
+                <label className="text-zinc-400 text-xs font-semibold tracking-wide" htmlFor="name">
+                  Full Name
+                </label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-500 group-focus-within:text-purple-400 transition-colors">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                  <input
+                    id="name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="John Doe"
+                    className="w-full pl-10 pr-4 py-3 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-zinc-600 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all text-sm"
+                    required={isSignUp}
+                  />
+                </div>
               </div>
             )}
 
@@ -185,10 +228,10 @@ export default function LoginPage() {
                 {isSubmitting ? (
                   <>
                     <div className="w-4 h-4 border-2 border-t-white border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
-                    <span>Signing in...</span>
+                    <span>{isSignUp ? 'Creating account...' : 'Signing in...'}</span>
                   </>
                 ) : (
-                  <span>Sign In</span>
+                  <span>{isSignUp ? 'Sign Up' : 'Sign In'}</span>
                 )}
               </button>
             </div>
@@ -197,10 +240,17 @@ export default function LoginPage() {
           {/* Footer Registration Redirect */}
           <div className="mt-8 text-center border-t border-white/[0.06] pt-5">
             <p className="text-zinc-500 text-xs">
-              Don&apos;t have an account?{' '}
-              <a href="#" className="text-purple-400 hover:text-purple-300 font-semibold transition-colors">
-                Sign up free
-              </a>
+              {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsSignUp(!isSignUp);
+                  setError(null);
+                }}
+                className="text-purple-400 hover:text-purple-300 font-semibold transition-colors focus:outline-none cursor-pointer"
+              >
+                {isSignUp ? 'Sign in instead' : 'Sign up free'}
+              </button>
             </p>
           </div>
         </div>

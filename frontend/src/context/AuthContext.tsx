@@ -17,7 +17,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-  register: (name: string, email: string) => Promise<void>; // optional fallback helper
+  register: (name: string, email: string, password: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -83,10 +83,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     router.push('/login');
   };
 
-  const register = async (name: string, email: string) => {
-    // Basic helper to show completeness
-    console.log('Registration for:', name, email);
+  const register = async (name: string, email: string, password: string) => {
+    setIsLoading(true);
+    try {
+      await apiPost<User>('/auth/signup', {
+        name,
+        email,
+        password,
+      });
+      // Automatically log the user in after successful registration
+      await login(email, password);
+    } catch (error) {
+      setIsLoading(false);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
   };
+
 
   return (
     <AuthContext.Provider
