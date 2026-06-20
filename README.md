@@ -74,9 +74,9 @@ graph TD
 
 | Dashboard Overview | Smart Wording Tailor |
 |:---:|:---:|
-| ![Dashboard](/docs/screenshots/dashboard_mockup.png) | ![Tailor](/docs/screenshots/tailor_mockup.png) |
+| ![Dashboard](docs/screenshots/dashboard_mockup.png) | ![Tailor](docs/screenshots/tailor_mockup.png) |
 | **Onboarding Empty State** | **Mock Interview Practice** |
-| ![Onboarding](/docs/screenshots/onboarding_mockup.png) | ![Mock Prep](/docs/screenshots/interview_mockup.png) |
+| ![Onboarding](docs/screenshots/onboarding_mockup.png) | ![Mock Prep](docs/screenshots/interview_mockup.png) |
 
 ---
 
