@@ -11,26 +11,29 @@ services:
       cd backend
       pip install -r requirements.txt
 
-   startCommand: |
-    cd backend
-    python -c "from app.main import app; print('IMPORT SUCCESS')"
-    python -m uvicorn app.main:app --host 0.0.0.0 --port=$PORT 
+    startCommand: |
+      cd backend
+      python -c "from app.main import app; print('IMPORT SUCCESS')"
+      python -m uvicorn app.main:app --host 0.0.0.0 --port=$PORT
 
     envVars:
       - key: PROJECT_NAME
-        value: CareerCopilot AI
+        value: "CareerCopilot AI"
 
       - key: API_V1_STR
-        value: /api/v1
+        value: "/api/v1"
 
       - key: PYTHON_VERSION
-        value: 3.11.10
+        value: "3.11.10"
 
       - key: DATABASE_URL
         sync: false
 
       - key: SECRET_KEY
         generateValue: true
+
+      - key: GEMINI_API_KEY
+        sync: false
 
       - key: GEMINI_API_KEY
         sync: false
