@@ -68,17 +68,7 @@ graph TD
 | **Database** | PostgreSQL, SQLAlchemy 2.0, Alembic | Relational database schema with full migration support and cascade models relationship. |
 | **AI/GenAI** | Google GenAI SDK (`google-genai`), PyTorch, Sentence-Transformers | Uses modern `genai.Client` for reasoning and Gemini APIs, and local embeddings for semantic job matching. |
 
----
 
-## 📸 Interface Screenshots
-
-| Dashboard Overview | Smart Wording Tailor |
-|:---:|:---:|
-| ![Dashboard](docs/screenshots/dashboard_mockup.png) | ![Tailor](docs/screenshots/tailor_mockup.png) |
-| **Onboarding Empty State** | **Mock Interview Practice** |
-| ![Onboarding](docs/screenshots/onboarding_mockup.png) | ![Mock Prep](docs/screenshots/interview_mockup.png) |
-
----
 
 ## 🚀 Installation & Local Development
 
