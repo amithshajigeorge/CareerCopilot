@@ -23,6 +23,9 @@ class Settings(BaseSettings):
     # Gemini API settings
     GEMINI_API_KEY: str = ""
 
+    # Embedding/Matching settings
+    USE_LOCAL_EMBEDDER: bool = False
+
     @field_validator("DATABASE_URL", mode="before")
     @classmethod
     def assemble_db_connection(cls, v: str | None, values) -> str:
